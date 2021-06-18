@@ -1,6 +1,6 @@
 module.exports = {
   reactStrictMode: true,
   env: {
-    API_KEY: 123
+    API_KEY: process.env.API_KEY
   }
 }

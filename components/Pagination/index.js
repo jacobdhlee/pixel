@@ -1,13 +1,19 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { FaAngleLeft, FaAngleRight } from 'react-icons/fa'
 
 import { DEFAULT_PER_PAGE } from '../../constants';
 
 import { PaginationContainer, PageButton, PageInput } from './styles';
 
-function Pagination({total_result, callPage}) {
+function Pagination({total_result, callPage, handlePages}) {
     const [ current, changePage ] = useState(1);
     const total = total_result ? Math.ceil(total_result / DEFAULT_PER_PAGE) : 1;
+
+    useEffect(() => {
+        if(handlePages !== current) {
+            changePage(1)
+        }
+    }, [handlePages])
 
     const handleChangePage = () => {
         if(current < 1) {

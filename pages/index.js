@@ -37,7 +37,6 @@ export default function Home({ pictures, error }) {
   }, [err])
 
   const handleApiCall = async (url) => {
-    console.log('another call ', url, ' env ', process.env.API_KEY)
     try {
       const headers = {
         Authorization: process.env.API_KEY
@@ -71,7 +70,7 @@ export default function Home({ pictures, error }) {
     <Wrapper>
       <Search onClick={handleChangeSearchTerm}/>
       <Images pictures={data.photos} />
-      <Pagination total_result={data.total_results} callPage={handleChangePagerNumber}/>
+      <Pagination total_result={data.total_results} callPage={handleChangePagerNumber} handlePages={page}/>
       <ToastContainer />
     </Wrapper>
   )
