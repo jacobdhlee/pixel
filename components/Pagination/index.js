@@ -16,6 +16,7 @@ function Pagination({total_result, callPage, handlePages}) {
     }, [handlePages])
 
     const handleChangePage = () => {
+        if(handlePages === current) return;
         if(current < 1) {
             changePage(1)
             callPage(1)
@@ -41,6 +42,12 @@ function Pagination({total_result, callPage, handlePages}) {
         }
     }
 
+    const handleKeyPress = (e) => {
+        if(e.key === 'Enter') {
+            handleChangePage();
+        }
+    }
+
     return (
         <PaginationContainer>
             <PageButton disabled={current === 1} onClick={() => handleButtonClick('back')}>
@@ -51,6 +58,7 @@ function Pagination({total_result, callPage, handlePages}) {
                 min={1} max={total} 
                 onChange={(e) => changePage(e.target.value)} value={current}
                 onBlur={handleChangePage}
+                onKeyPress={handleKeyPress}
             />
             <span>of {total}</span>
             <PageButton disabled={current === total} onClick={() => handleButtonClick('forward')}>

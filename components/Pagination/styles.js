@@ -42,6 +42,8 @@ export const PageInput = styled.input`
     outline: none;
     margin-right: 10px;
     -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
     font-size: 20px;
     @media(max-width: ${DEVICE_SIZE.largeMobile}) {
         width: 70px;
