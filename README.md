@@ -8,7 +8,7 @@ First npm install
 
 ```bash
     # go to project
-    cd PROJECT_NAME 
+    cd pixel
 
     # npm install
     npm install
