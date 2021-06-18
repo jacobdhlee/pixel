@@ -1,4 +1,4 @@
-# Pixelx
+# Pixel
 
 Photos are from Pixels API. Users can browse photos or search
 
