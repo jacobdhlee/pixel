@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-
+import { DEVICE_SIZE } from '../../constants';
 
 export const ImagesContainer = styled.div`
     width: 100vw;
@@ -8,7 +8,9 @@ export const ImagesContainer = styled.div`
     margin: 20px 20px;
     flex-wrap: wrap;
     justify-content: center;
-
+    @media(max-width: ${DEVICE_SIZE.largeMobile}) {
+        width: 90vw;
+    }
 `
 
 export const Picture = styled.div`
@@ -22,6 +24,15 @@ export const Picture = styled.div`
         width: 100%;
         height: 100%;
         object-fit: cover;
+    }
+    @media(max-width: ${DEVICE_SIZE.largeMobile}) {
+        height: 400px;
+        margin: 10px 0 0 0;
+    }
+    @media(max-width: ${DEVICE_SIZE.smallMobile}) {
+        height: 400px;
+        width: 250px;
+        margin: 10px 0 0 0;
     }
 `
 

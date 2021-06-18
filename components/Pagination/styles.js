@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { DEVICE_SIZE } from '../../constants';
 
 export const PaginationContainer = styled.div`
     width: 100vw;
@@ -9,6 +10,12 @@ export const PaginationContainer = styled.div`
     margin-bottom: 50px;
     span {
         font-size: 20px;
+    }
+    @media(max-width: ${DEVICE_SIZE.largeMobile}) {
+        width: 90vw;
+        span {
+            font-size: 15px;
+    }   
     }
 `;
 
@@ -22,6 +29,10 @@ export const PageButton = styled.button`
     &:hover {
         cursor: pointer;
     }
+    @media(max-width: ${DEVICE_SIZE.largeMobile}) {
+        width: 30px;
+        height: 30px;
+    }
 `;
 
 export const PageInput = styled.input`
@@ -32,4 +43,9 @@ export const PageInput = styled.input`
     margin-right: 10px;
     -webkit-appearance: none;
     font-size: 20px;
+    @media(max-width: ${DEVICE_SIZE.largeMobile}) {
+        width: 70px;
+        height: 30px;
+        font-size: 15px;
+    }
 `

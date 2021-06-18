@@ -11,14 +11,19 @@ import { DEFAULT_PAGE, DEFAULT_PER_PAGE } from '../constants';
 import 'react-toastify/dist/ReactToastify.css';
 
 export default function Home({ pictures, error }) {
-  const [ data, chageData ] = useState({})
+  const [ searchPic, changeSearchPic ] = useState({});
+  const [ data, chageData ] = useState({});
   const [ page, changePage ] = useState(1);
   const [ search, changeSearch ] = useState('');
   const [ err, changeError ] = useState(null);
 
   useEffect(() => {
-    chageData({...pictures})
     changeError(error)
+    if(!error) {
+      chageData({...pictures})
+      const randomIndex = Math.floor(Math.random() * DEFAULT_PER_PAGE);
+      changeSearchPic({...pictures.photos[randomIndex]})
+    }
   }, []);
 
   useEffect(() => {
@@ -68,7 +73,7 @@ export default function Home({ pictures, error }) {
 
   return (
     <Wrapper>
-      <Search onClick={handleChangeSearchTerm}/>
+      <Search onClick={handleChangeSearchTerm} searchPic={searchPic} />
       <Images pictures={data.photos} />
       <Pagination total_result={data.total_results} callPage={handleChangePagerNumber} handlePages={page}/>
       <ToastContainer />
