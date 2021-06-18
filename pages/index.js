@@ -1,4 +1,6 @@
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { ToastContainer, toast } from 'react-toastify';
 
 import Wrapper from '../components/wrapper';
 import Search from '../components/Search';
@@ -6,13 +8,71 @@ import Images from '../components/Images';
 import Pagination from '../components/Pagination';
 
 import { DEFAULT_PAGE, DEFAULT_PER_PAGE } from '../constants';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function Home({ pictures, error }) {
+  const [ data, chageData ] = useState({})
+  const [ page, changePage ] = useState(1);
+  const [ search, changeSearch ] = useState('');
+  const [ err, changeError ] = useState(null);
+
+  useEffect(() => {
+    chageData({...pictures})
+    changeError(error)
+  }, []);
+
+  useEffect(() => {
+    if(err) {
+      console.log('called error')
+      toast.error("Something went wrong", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: false,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+      })
+    }
+  }, [err])
+
+  const handleApiCall = async (url) => {
+    console.log('another call ', url, ' env ', process.env.API_KEY)
+    try {
+      const headers = {
+        Authorization: process.env.API_KEY
+      }
+      let response = await axios.get(url, { headers })
+      chageData({...response.data})
+    } catch(errors) {
+      changeError(errors)
+    }
+  }
+
+  const handleChangeSearchTerm = (str) => {
+    changeSearch(str);
+    changePage(1);
+    const url = `https://api.pexels.com/v1/search?query=${str}&per_page=${DEFAULT_PER_PAGE}&page=1`
+    handleApiCall(url)
+  };
+
+  const handleChangePagerNumber = (num) => {
+    changePage(num)
+    const url = search === '' ? 
+      `https://api.pexels.com/v1/curated?page=${num}&per_page=${DEFAULT_PER_PAGE}`
+      : `https://api.pexels.com/v1/search?query=${search}&per_page=${DEFAULT_PER_PAGE}&page=${num}`
+    handleApiCall(url)
+  }
+
+
+
+
   return (
     <Wrapper>
-      <Search onClick={(searchVal) => console.log('search value is ', searchVal)}/>
-      <Images pictures={pictures.photos} />
-      <Pagination total_result={pictures.total_results} callPage={(page) => console.log('page is ', page)}/>
+      <Search onClick={handleChangeSearchTerm}/>
+      <Images pictures={data.photos} />
+      <Pagination total_result={data.total_results} callPage={handleChangePagerNumber}/>
+      <ToastContainer />
     </Wrapper>
   )
 }
@@ -23,9 +83,7 @@ export const getServerSideProps = async (context) => {
     const headers = {
       Authorization: process.env.API_KEY
     }
-    // console.log(' ', process.env.API_KEY)
     let response = await axios.get(`https://api.pexels.com/v1/curated?page=${page}&per_page=${DEFAULT_PER_PAGE}`, { headers })
-    // console.log('query ', response)
     return {
       props: {
         pictures: response.data,

@@ -7,7 +7,7 @@ import { PaginationContainer, PageButton, PageInput } from './styles';
 
 function Pagination({total_result, callPage}) {
     const [ current, changePage ] = useState(1);
-    const total = Math.ceil(total_result / DEFAULT_PER_PAGE);
+    const total = total_result ? Math.ceil(total_result / DEFAULT_PER_PAGE) : 1;
 
     const handleChangePage = () => {
         if(current < 1) {
